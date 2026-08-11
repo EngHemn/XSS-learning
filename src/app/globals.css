@@ -28,6 +28,10 @@
   --accent-violet: #8b5cf6;
   --accent-violet-glow: rgba(139, 92, 246, 0.4);
 
+  --bg-gradient-1: rgba(6, 182, 212, 0.08);
+  --bg-gradient-2: rgba(139, 92, 246, 0.08);
+  --bg-gradient-3: rgba(16, 185, 129, 0.06);
+
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-heading: 'Outfit', var(--font-sans);
   --font-mono: 'Fira Code', monospace;
@@ -41,6 +45,50 @@
   --shadow-glow-emerald: 0 0 25px rgba(16, 185, 129, 0.25);
   --shadow-glow-rose: 0 0 25px rgba(244, 63, 94, 0.25);
   --shadow-glow-cyan: 0 0 25px rgba(6, 182, 212, 0.25);
+
+  --title-color: #ffffff;
+  --navbar-bg: rgba(6, 9, 17, 0.8);
+}
+
+[data-theme='light'] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
+  --bg-tertiary: #e2e8f0;
+  --bg-card: rgba(255, 255, 255, 0.85);
+  --bg-card-hover: rgba(255, 255, 255, 0.95);
+  --bg-glass: rgba(248, 250, 252, 0.75);
+  
+  --border-subtle: rgba(15, 23, 42, 0.08);
+  --border-medium: rgba(15, 23, 42, 0.15);
+  --border-glow: rgba(16, 185, 129, 0.2);
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-accent: #0284c7;
+
+  --accent-emerald: #059669;
+  --accent-emerald-glow: rgba(5, 150, 105, 0.2);
+  --accent-cyan: #0891b2;
+  --accent-cyan-glow: rgba(8, 145, 178, 0.2);
+  --accent-rose: #e11d48;
+  --accent-rose-glow: rgba(225, 29, 72, 0.2);
+  --accent-amber: #d97706;
+  --accent-amber-glow: rgba(217, 119, 6, 0.2);
+  --accent-violet: #7c3aed;
+  --accent-violet-glow: rgba(124, 58, 237, 0.2);
+
+  --bg-gradient-1: rgba(6, 182, 212, 0.05);
+  --bg-gradient-2: rgba(139, 92, 246, 0.05);
+  --bg-gradient-3: rgba(16, 185, 129, 0.04);
+
+  --shadow-card: 0 8px 32px 0 rgba(148, 163, 184, 0.12);
+  --shadow-glow-emerald: 0 0 15px rgba(5, 150, 105, 0.15);
+  --shadow-glow-rose: 0 0 15px rgba(225, 29, 72, 0.15);
+  --shadow-glow-cyan: 0 0 15px rgba(8, 145, 178, 0.15);
+
+  --title-color: #0f172a;
+  --navbar-bg: rgba(248, 250, 252, 0.8);
 }
 
 * {
@@ -56,23 +104,60 @@ html, body {
   font-family: var(--font-sans);
   overflow-x: hidden;
   line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body {
   background-image: 
-    radial-gradient(circle at 15% 15%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 85% 25%, rgba(139, 92, 246, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 50% 80%, rgba(16, 185, 129, 0.06) 0%, transparent 50%);
+    radial-gradient(circle at 15% 15%, var(--bg-gradient-1) 0%, transparent 40%),
+    radial-gradient(circle at 85% 25%, var(--bg-gradient-2) 0%, transparent 40%),
+    radial-gradient(circle at 50% 80%, var(--bg-gradient-3) 0%, transparent 50%);
   background-attachment: fixed;
+}
+
+/* Laptop screen size warning overlay */
+.laptop-required-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  font-family: var(--font-sans);
+}
+
+.laptop-required-card {
+  max-width: 550px;
+  padding: 2.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+@media (max-width: 1023px) {
+  .laptop-required-overlay {
+    display: flex !important;
+  }
+  .app-layout-wrapper {
+    display: none !important;
+  }
 }
 
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   font-weight: 700;
-  color: #fff;
+  color: var(--title-color);
   line-height: 1.25;
+  transition: color 0.3s ease;
 }
+
 
 h1 { font-size: 2.5rem; letter-spacing: -0.02em; }
 h2 { font-size: 1.85rem; letter-spacing: -0.015em; }

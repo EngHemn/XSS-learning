@@ -2,10 +2,29 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Shield, BookOpen, Terminal, Flame, Zap, CheckCircle2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Shield, BookOpen, Terminal, Flame, Zap, CheckCircle2, Sun, Moon } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") as "dark" | "light";
+    if (savedTheme) {
+      setTheme(savedTheme);
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    } else {
+      document.documentElement.setAttribute("data-theme", "dark");
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    localStorage.setItem("theme", nextTheme);
+    document.documentElement.setAttribute("data-theme", nextTheme);
+  };
 
   const navLinks = [
     { href: "/", label: "Overview", icon: Zap },
@@ -20,8 +39,9 @@ export default function Navbar() {
       zIndex: 50,
       backdropFilter: "blur(20px)",
       WebkitBackdropFilter: "blur(20px)",
-      backgroundColor: "rgba(6, 9, 17, 0.8)",
+      backgroundColor: "var(--navbar-bg)",
       borderBottom: "1px solid var(--border-subtle)",
+      transition: "background-color 0.3s ease, border-bottom 0.3s ease"
     }}>
       <div className="container" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: "70px" }}>
         {/* Brand */}
@@ -36,11 +56,11 @@ export default function Navbar() {
             justifyContent: "center",
             boxShadow: "0 0 15px rgba(16, 185, 129, 0.4)"
           }}>
-            <Shield size={22} color="#060911" strokeWidth={2.5} />
+            <Shield size={22} color="var(--bg-primary)" strokeWidth={2.5} />
           </div>
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-              <span style={{ fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: "1.2rem", letterSpacing: "-0.02em", color: "#fff" }}>
+              <span style={{ fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: "1.2rem", letterSpacing: "-0.02em", color: "var(--title-color)", transition: "color 0.3s ease" }}>
                 XSS<span style={{ color: "var(--accent-emerald)" }}>.ACADEMY</span>
               </span>
               <span className="badge badge-cyan" style={{ fontSize: "0.65rem", padding: "0.15rem 0.45rem" }}>
@@ -106,7 +126,27 @@ export default function Navbar() {
 
         {/* Right CTA / Shield Status */}
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <div style={{
+          <button 
+            onClick={toggleTheme}
+            style={{
+              background: "rgba(255, 255, 255, 0.05)",
+              border: "1px solid var(--border-subtle)",
+              borderRadius: "var(--radius-md)",
+              width: "36px",
+              height: "36px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              color: "var(--text-primary)",
+              transition: "all 0.2s ease"
+            }}
+            title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+          >
+            {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+
+          <div className="sandbox-badge" style={{
             display: "flex",
             alignItems: "center",
             gap: "0.4rem",
